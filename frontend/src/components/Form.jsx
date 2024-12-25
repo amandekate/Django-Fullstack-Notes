@@ -2,10 +2,9 @@ import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import "../styles/Form.css";
 import LoadingIndicator from "./LoadingIndicator";
 
-function Form({ route, method }) {
+function Form({ route, method, secondaryButtonText, onSecondaryButtonClick }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,27 +32,65 @@ function Form({ route, method }) {
     }
   };
 
+  const buttonStyle = {
+    width: "24rem",
+    padding: "10px",
+    margin: "10px 0",
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    transition: "background-color 0.2s ease-in-out",
+  };
+
+  const secondaryButtonStyle = {
+    ...buttonStyle,
+    backgroundColor: "#6c757d", 
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="form-container">
+    <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
       <h1>{name}</h1>
       <input
-        className="form-input"
+        style={{
+          width: "24rem",
+          padding: "10px",
+          margin: "10px 0",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+        }}
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
       />
       <input
-        className="form-input"
+        style={{
+          width: "24rem",
+          padding: "10px",
+          margin: "10px 0",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+        }}
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
       {loading && <LoadingIndicator />}
-      <button className="form-button" type="submit">
+      <button style={buttonStyle} type="submit">
         {name}
       </button>
+      {secondaryButtonText && (
+        <button
+          type="button"
+          style={secondaryButtonStyle}
+          onClick={onSecondaryButtonClick}
+        >
+          {secondaryButtonText}
+        </button>
+      )}
     </form>
   );
 }
